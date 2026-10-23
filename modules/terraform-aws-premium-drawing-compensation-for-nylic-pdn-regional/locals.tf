@@ -13,20 +13,42 @@ locals {
     "813144408162" = {
       vpc_access = {
         description = "Allows access between resources within VPC CIDR"
+        ingress     = local.vpc_access_ingress
+
+        egress = {
+          all-outbound = {
+            description = "All outbound"
+            ip_protocol = "-1"
+            cidr_ipv4   = "0.0.0.0/0"
+          }
+        }
       }
     }
 
     "910663996468" = {
       cyberark_instance_access = {
         description = "Cyberark SG to allow few ports for cyberark access"
+        ingress     = local.cyberark_ingress
+        egress      = {}
       }
 
       guidance_safe_instance_access = {
         description = "SG for Guidance Safe Application"
+        ingress     = local.guidance_safe_ingress
+        egress      = {}
       }
 
       vpc_access = {
         description = "Allows access between resources within VPC CIDR"
+        ingress     = local.vpc_access_ingress
+
+        egress = {
+          all-outbound = {
+            description = "All outbound"
+            ip_protocol = "-1"
+            cidr_ipv4   = "0.0.0.0/0"
+          }
+        }
       }
     }
   }
