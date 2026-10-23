@@ -49,21 +49,7 @@ module "security_groups" {
     name        = "${each.key}-sg-tf"
     description = each.value.description
     vpc_id      = data.aws_vpc.current.id
-
-    ingress = (
-      each.key == "cyberark_instance_access" ? local.cyberark_ingress :
-      each.key == "guidance_safe_instance_access" ? local.guidance_safe_ingress :
-      local.vpc_access_ingress
-    )
-
-    egress = (
-      each.key == "vpc_access" ? {
-        all-outbound = {
-          description = "All outbound"
-          ip_protocol = "-1"
-          cidr_ipv4   = "0.0.0.0/0"
-        }
-      } : {}
-    )
+    ingress     = each.value.ingress
+    egress      = each.value.egress
   }
 }
