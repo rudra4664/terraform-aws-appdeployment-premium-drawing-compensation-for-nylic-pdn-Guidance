@@ -1,8 +1,8 @@
 locals {
-  green_instances         = lookup(var.green_instances, data.aws_caller_identity.current.account_id, {})
+  green_instances         = lookup(var.green_instances, var.env, {})
   subnet_ids_by_az        = { for subnet in data.aws_subnet.compute : subnet.availability_zone => subnet.id }
   vpc_cidrs               = data.aws_vpc.current.cidr_block_associations[*].cidr_block
-  current_security_groups = local.security_groups[data.aws_caller_identity.current.account_id]
+  current_security_groups = lookup(local.security_groups, var.env, {})
 
   security_group_ids = {
     for name, sg in module.security_groups :
@@ -10,7 +10,7 @@ locals {
   }
 
   security_groups = {
-    "813144408162" = {
+    qa = {
       vpc_access = {
         description = "Allows access between resources within VPC CIDR"
         ingress     = local.vpc_access_ingress
@@ -25,7 +25,7 @@ locals {
       }
     }
 
-    "910663996468" = {
+    prod = {
       cyberark_instance_access = {
         description = "Cyberark SG to allow few ports for cyberark access"
         ingress     = local.cyberark_ingress
