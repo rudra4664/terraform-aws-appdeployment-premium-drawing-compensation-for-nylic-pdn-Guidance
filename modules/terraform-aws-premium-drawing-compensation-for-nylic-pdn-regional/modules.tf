@@ -1,7 +1,7 @@
 module "green_instances" {
   for_each   = local.green_instances
   source     = "app.terraform.io/NYL-Prod/apps-resources/aws//modules/terraform-aws-ec2-instance"
-  version    = "1.1.3"
+  version    = "1.1.9"
   tf_org     = "NYL-PROD"
   appid      = var.appid
   env        = var.env
@@ -30,6 +30,7 @@ module "green_instances" {
   network = {
     security_group_ids = toset([for sg in each.value.security_groups : local.security_group_ids[sg]])
     subnet_id          = local.subnet_ids_by_az[each.value.availability_zone]
+    private_ip         = each.value.private_ip
   }
 
   additional_volumes = {
@@ -40,7 +41,7 @@ module "green_instances" {
 module "security_groups" {
   for_each = local.current_security_groups
   source   = "app.terraform.io/NYL-Prod/apps-resources/aws//modules/terraform-aws-security-group"
-  version  = "1.1.3"
+  version  = "1.1.9"
   tf_org   = "NYL-PROD"
   appid    = var.appid
   tags     = var.tags
