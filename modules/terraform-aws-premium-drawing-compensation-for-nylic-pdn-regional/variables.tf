@@ -9,7 +9,7 @@ variable "env" {
 }
 
 variable "green_instances" {
-  description = "Green (OS-upgraded) instances to build, by AWS Account."
+  description = "Green (OS-upgraded) instances to build by environment."
 
   type = map(map(object({
     availability_zone   = string
@@ -18,6 +18,7 @@ variable "green_instances" {
     security_groups     = list(string)
     strategic_ami_build = string
     strategic_os_type   = string
+    private_ip          = optional(string)
 
     additional_volumes = map(object({
       device_name = string
