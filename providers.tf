@@ -25,10 +25,13 @@ provider "aws" {
       "domain_join",
       "fqdn",
       "nyl:appid",
+      "nyl:platform:backupTier",
+      "nyl:platform:environment",
     ]
 
     key_prefixes = [
       "nyl:platform:",
+      "nyl:platform:temp",
     ]
   }
 }
