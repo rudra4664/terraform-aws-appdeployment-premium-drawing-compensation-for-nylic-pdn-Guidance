@@ -1,7 +1,7 @@
 module "green_instances" {
   for_each   = local.green_instances
   source     = "app.terraform.io/NYL-Prod/apps-resources/aws//modules/terraform-aws-ec2-instance"
-  version    = "1.1.9"
+  version    = "1.2.2"
   tf_org     = "NYL-PROD"
   appid      = var.appid
   env        = var.env
@@ -41,13 +41,13 @@ module "green_instances" {
 module "security_groups" {
   for_each = local.current_security_groups
   source   = "app.terraform.io/NYL-Prod/apps-resources/aws//modules/terraform-aws-security-group"
-  version  = "1.1.9"
+  version  = "1.2.2"
   tf_org   = "NYL-PROD"
   appid    = var.appid
   tags     = var.tags
 
   security_group = {
-    name        = "${each.key}-sg-tf"
+    name        = var.security_group_names[var.env][each.key]
     description = each.value.description
     vpc_id      = data.aws_vpc.current.id
     ingress     = each.value.ingress
