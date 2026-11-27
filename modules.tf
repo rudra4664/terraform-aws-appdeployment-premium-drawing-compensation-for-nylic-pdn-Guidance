@@ -16,6 +16,7 @@ module "regional_us_east_1" {
   instance_profile_name = module.global.instance_profile_name
   lob                   = var.lob
   tags                  = var.tags
+  security_group_names  = var.security_group_names
 
   providers = {
     aws = aws.us-east-1
