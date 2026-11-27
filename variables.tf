@@ -34,7 +34,7 @@ variable "green_instances" {
         availability_zone   = "us-east-1a"
         name                = "securityc4e-qa-guidance-safe-node-i-1-green"
         root_volume_size    = 250
-        security_groups     = ["vpc_access"]
+        security_groups     = ["cyberark_instance_access", "vpc_access"]
         strategic_ami_build = "PROD"
         strategic_os_type   = "NYL Microsoft Windows Server 2025"
 
@@ -51,7 +51,7 @@ variable "green_instances" {
         availability_zone   = "us-east-1b"
         name                = "securityc4e-qa-guidance-safe-node-i-2-green"
         root_volume_size    = 250
-        security_groups     = ["vpc_access"]
+        security_groups     = ["cyberark_instance_access", "vpc_access"]
         strategic_ami_build = "PROD"
         strategic_os_type   = "NYL Microsoft Windows Server 2025"
 
@@ -78,7 +78,7 @@ variable "green_instances" {
           sdf = {
             device_name = "/dev/sdf"
             size        = 4096
-            snapshot_id = "snap-08491e29347d23c0f"
+            snapshot_id = "snap-06794ece4ee94f571"
           }
         }
       }
@@ -95,7 +95,7 @@ variable "green_instances" {
           sdf = {
             device_name = "/dev/sdf"
             size        = 4096
-            snapshot_id = "snap-00cb2b6cc0fa7192c"
+            snapshot_id = "snap-0c24cbda99ba03e6b"
           }
         }
       }
@@ -112,4 +112,22 @@ variable "lob" {
 variable "tags" {
   description = "Application-specific tags merged on top of mandatory governance tags."
   type        = map(string)
+}
+
+variable "security_group_names" {
+  description = "Security group names by environment."
+  type        = map(map(string))
+
+  default = {
+    qa = {
+      cyberark_instance_access = "cyberark_instance_access-sg-tf"
+      vpc_access               = "vpc_access-sg-tf"
+    }
+
+    prod = {
+      cyberark_instance_access      = "cyberark_instance_access-sg-tf"
+      guidance_safe_instance_access = "guidance_safe_instance_access-sg-tf"
+      vpc_access                    = "vpc_access-sg-tf"
+    }
+  }
 }
