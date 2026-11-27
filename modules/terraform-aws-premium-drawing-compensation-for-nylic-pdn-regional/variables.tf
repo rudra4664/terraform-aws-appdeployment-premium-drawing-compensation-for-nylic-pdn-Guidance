@@ -42,3 +42,8 @@ variable "tags" {
   description = "Application-specific tags merged on top of mandatory governance tags."
   type        = map(string)
 }
+
+variable "security_group_names" {
+  description = "Security group names by environment."
+  type        = map(map(string))
+}
